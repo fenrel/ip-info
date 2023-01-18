@@ -7,6 +7,7 @@
 :root{
   --primary-clr: hsl(0, 0%, 17%);
   --secondary-clr: hsl(0, 0%, 59%);
+  --border-radius: 0.5rem;
   font-family: Rubik;
 }
 
@@ -21,6 +22,10 @@ main {
   height: 100vh;
   width: min(100%, 1440px);
   margin: auto;
+}
+
+.error {
+  color: red;
 }
 
 .search-form {
@@ -44,6 +49,7 @@ main {
 
 .search-form input {
   padding: 0.5rem;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
   width: 100%;
   border: none;
 }
@@ -52,6 +58,7 @@ main {
   background-color: var(--primary-clr);
   color: white;
   padding: 0 0.5rem;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
   height: 2rem;
   border: none;
   cursor: pointer;
@@ -69,15 +76,16 @@ main {
   display: flex;
 
   position: absolute;
-  bottom: -2rem;
+  bottom: 0;
+  transform: translateY(50%);
   z-index: 10000;
 
-  border: 2px solid black;
   background-color: white;
+  border-radius: var(--border-radius);
   padding: 1rem;
   margin: auto;
   list-style: none;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .info-name {
@@ -88,5 +96,18 @@ main {
   color: var(--primary-clr);
   font-size: 18px;
   font-weight: 700;
+}
+
+@media (max-width: 550px) {
+  #map {
+    flex: 2;
+  }
+  .info {
+    flex-direction: column;
+    text-align: center;
+    width: 20rem;
+    transform: translateY(60%);
+    gap: 1rem;
+  }
 }
 

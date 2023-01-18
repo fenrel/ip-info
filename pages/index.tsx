@@ -10,10 +10,21 @@ const LocationMap = dynamic(() => import('@/src/components/LocationMap'), {ssr: 
 export default function Home() {
   const [ipInput, setIpInput] = useState<string>("");
   const [ipLocation, setIpLocation] = useState<IpLocation>();
+  const [searchError, setSearchError] = useState<string>("");
+
+  const fetchIpInfo = () => {
+    getInfo(ipInput)
+      .then(data => setIpLocation(data))
+      .catch(error => {
+        setSearchError(error.message);
+        setTimeout(() => {
+          setSearchError("");
+        }, 2000);
+      });
+  }
 
   useEffect(() => {
-    getInfo("0.0.0.0")
-      .then(data => setIpLocation(data));
+    fetchIpInfo();
   }, []);
   return (
     <>
@@ -35,11 +46,10 @@ export default function Home() {
               onChange={(e) => setIpInput(e.target.value)}
               value={ipInput}
               placeholder="Search for any IP address"
-            />
-            <button onClick={async () => {
-              setIpLocation(await getInfo(ipInput));
-            }}>Search</button>
+              />
+            <button onClick={fetchIpInfo}>Search</button>
           </div>
+          {searchError ? <p className='error'>{searchError}</p> : <></>}
           {ipLocation ? <IpInfo info={ipLocation} /> : <></>}
         </div>
         {ipLocation ? (
